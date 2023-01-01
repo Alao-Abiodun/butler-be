@@ -1,0 +1,21 @@
+tags: [Service Management]
+summary: Get a service
+description: |
+  This endpoint is used to get a service.
+parameters:
+  - in: path
+    name: service_id
+    schema:
+      type: string
+    required: true
+    description: |
+      Service id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/ServiceResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

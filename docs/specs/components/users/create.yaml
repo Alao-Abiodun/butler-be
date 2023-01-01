@@ -1,0 +1,120 @@
+tags: [User Management]
+summary: Create a user
+description: |
+  This endpoint is used to create a CUSTOMER only and it doesn't require `authentication`. 
+
+  > NOTE: A `SUPER_ADMIN` can not be created with this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/UserSchema"
+      example:
+        first_name: Dele
+        last_name: Alli
+        phone: 08160532895
+        password: admin123
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/UserResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    UserRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        first_name:
+          type: "string"
+          maxLength: 60
+          description: "User's first name (60 characters max)"
+        last_name:
+          type: "string"
+          maxLength: 60
+          description: "User's last name (60 characters max)"
+        password:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "User's password (8 min, 50 characters max)"
+        # email:
+        #   type: "string"
+        #   format: "email"
+        #   maxLength: 50
+        #   description: "User's valid email address"
+        phone_number:
+          type: "string"
+          maxLength: 15
+          description: "User's valid phone number"
+        # role:
+        #   type: "string"
+        #   description: "The role of the user to created"
+        #   default: "CUSTOMER"
+      required:
+        - "first_name"
+        - "last_name"
+        - "password"
+        # - "email"
+        - "phone_number"
+
+    UserSchema:
+      type: object
+      properties:
+        first_name:
+          type: "string"
+          maxLength: 60
+          description: "User's first name (60 characters max)"
+        last_name:
+          type: "string"
+          maxLength: 60
+          description: "User's last name (60 characters max)"
+        # email:
+        #   type: "string"
+        #   format: "email"
+        #   maxLength: 50
+        #   description: "User's valid email address"
+        phone_number:
+          type: "string"
+          maxLength: 15
+          description: "User's valid phone number"
+        role:
+          type: "string"
+          description: "The role of the user"
+        is_admin:
+          type: "boolean"
+          description: "This is true for super admins only"
+
+  responses:
+    UserResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                _id: 5f67943d823e6329fd236f33
+                full_name: Yusuff Akki
+                email: 08160532895
+                status: ACTIVE
+              message: User with email yewob30945@onmail3.com created successfully.

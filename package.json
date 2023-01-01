@@ -1,0 +1,68 @@
+{
+  "name": "butler-api",
+  "version": "1.0.0",
+  "description": "This is the API for butler management software",
+  "main": "server.js",
+  "scripts": {
+    "test": "NODE_ENV=test; jest --runInBand --detectOpenHandles --testTimeout 4000",
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test:watch": "npm run test -- --watch",
+    "redoc:build": "./node_modules/redoc-cli/index.js bundle ./docs/specs/api-specs-v3.yaml --output ./docs/index.html",
+    "redoc:dev": "./node_modules/redoc-cli/index.js serve ./docs/specs/api-specs-v3.yaml --watch --port 4041",
+    "rebuild:docs": "./node_modules/watch/cli.js  \"npm run redoc-bundle\" ./docs/specs",
+    "deploy": "git push origin master && git push heroku master"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "slowTestThreshold": 5,
+    "modulePathIgnorePatterns": [
+      "<rootDir>/src/config"
+    ],
+    "testRegex": "((\\.|/*.)(spec))\\.js?$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dev-inately/butler.git"
+  },
+  "keywords": [
+    "butler"
+  ],
+  "author": "Yusuff Mustapha",
+  "license": "MIT",
+  "homepage": "https://github.com/dev-inately/butler#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.20",
+    "@types/supertest": "^2.0.10",
+    "commander": "^7.0.0",
+    "eslint": "^7.18.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "jest": "^26.6.3",
+    "joi-to-swagger": "^5.2.0",
+    "json-to-pretty-yaml": "^1.2.2",
+    "mongodb-memory-server": "^6.9.3",
+    "mongoose-to-swagger": "^1.1.1",
+    "pino-pretty": "^5.1.2",
+    "redoc-cli": "^0.10.2",
+    "supertest": "^6.1.1"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^3.22.0",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.13",
+    "pino": "^6.2.1"
+  }
+}

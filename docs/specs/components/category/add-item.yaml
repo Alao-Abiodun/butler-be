@@ -1,0 +1,99 @@
+tags: [Category Management]
+summary: Add Item to a category
+description: |
+  This endpoint is used to add an item to a category and it require `authentication`. 
+
+  > NOTE: ONly`SUPER_ADMIN` can use this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/CategorySchema"
+      example:
+        item: 21qwasaZds32esad23d23ed32d
+        price: 400
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/CategoryResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    CategoryRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        item:
+          type: "string"
+          maxLength: 60
+          description: "Id of the Item"
+        price:
+          type: "number"
+          description: "Item's Price"
+        minimum_quantity:
+          type: "number"
+          description: "Item's Minimum order quantity"
+        maximum_quantity:
+          type: "number"
+          description: "Item's Maximum order quantity"
+      required:
+        - "item"
+        - "price"
+
+
+    CategorySchema:
+      type: object
+      properties:
+        item:
+          type: "string"
+          maxLength: 60
+          description: "Id of the Item"
+        price:
+          type: "number"
+          description: "Item's Price"
+        minimum_quantity:
+          type: "number"
+          description: "Item's Minimum order quantity"
+        maximum_quantity:
+          type: "number"
+          description: "Item's Maximum order quantity"
+      required:
+        - "name"
+        - "description"
+
+  responses:
+    CategoryResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                item: 34dsdsadadxczxcasd34rdzdsadsd
+                price: 200
+                minimum_quantity: 0
+                maximum_quantity: 0
+                created_at: '2021-09-15T20:11:20.880Z'
+                updated_at: '2021-09-15T20:11:20.880Z'
+                __v: 0
+              message: Cardigan added successfully

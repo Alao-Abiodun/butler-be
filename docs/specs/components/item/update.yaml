@@ -1,0 +1,31 @@
+tags: [Item Management]
+summary: Update an item
+description: |
+  This endpoint is used to update a item details.
+
+parameters:
+  - in: path
+    name: item_id
+    schema:
+      type: string
+    required: true
+    description: |
+      item id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "./create.yaml#/components/schemas/ItemSchema"
+      example:
+        visible: false
+        status: "INACTIVE"
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/ItemResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

@@ -1,0 +1,106 @@
+tags: [Item Management]
+summary: Create an item
+description: |
+  This endpoint is used to create an Item and it require `authentication`. 
+
+  > NOTE: ONly`SUPER_ADMIN` can use this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/ItemSchema"
+      example:
+        name: Cardigan
+        class: Tops
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/ItemResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    ItemRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Item's name "
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Item Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Item active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Item's active"
+      required:
+        - "name"
+
+
+    ItemSchema:
+      type: object
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Item's name"
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Item Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Item active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Item's active"
+      required:
+        - "name"
+
+  responses:
+    ItemResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                __id: 61423bbb07905787aad06a7a
+                icon: https://res.cloudinary.com/butlerdesigns/image/upload/v1631657584/Assets/Fumigation2_i1sqda.png
+                status: ACTIVE
+                visible: true
+                name: Cardigan
+                class: Tops
+              message: Item Cardigan created successfully.

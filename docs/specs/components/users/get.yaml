@@ -1,0 +1,47 @@
+tags: [User Management]
+summary: Get all user
+description: |
+  This endpoint is used to get all user.
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/UserResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  responses:
+    AllUserResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: "array"
+
+            example:
+              status: success
+              data:
+                - _id: 5f67943d823e6329fd236f33
+                  full_name: Joe Biden
+                  email: yewob30945@gmail.com
+                  status: ACTIVE
+                  is_admin: false
+
+                - _id: 5f67943d823e6329fd236f33
+                  full_name: Kamala Harris
+                  email: yewob30945@gmail.com
+                  status: ACTIVE
+                  is_admin: false
+              message: User with email yewob30945@onmail3.com created successfully.

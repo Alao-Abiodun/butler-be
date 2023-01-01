@@ -1,0 +1,32 @@
+tags: [User Management]
+summary: Update a user
+description: |
+  This endpoint is used to update a user details. Note that `STATUS` and `EMAIl` cannot be updated
+
+parameters:
+  - in: path
+    name: user_id
+    schema:
+      type: string
+    required: true
+    description: |
+      user id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "./create.yaml#/components/schemas/UserSchema"
+      example:
+        first_name: Ramon
+        last_name: Igbalode
+        phone_number: "+2348160532899"
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/UserResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

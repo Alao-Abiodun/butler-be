@@ -1,0 +1,13 @@
+tags: [User Management]
+summary: Get my details
+description: |
+  This endpoint is used to get a  signed-in user details.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/UserResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

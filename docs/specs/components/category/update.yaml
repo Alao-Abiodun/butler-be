@@ -1,0 +1,31 @@
+tags: [Category Management]
+summary: Update a category
+description: |
+  This endpoint is used to update a category details. Note that `slug` and `name` cannot be updated
+
+parameters:
+  - in: path
+    name: category_id
+    schema:
+      type: string
+    required: true
+    description: |
+      category id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "./create.yaml#/components/schemas/CategorySchema"
+      example:
+        visible: false
+        status: "INACTIVE"
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/CategoryResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

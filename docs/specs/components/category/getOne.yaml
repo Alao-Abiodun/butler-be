@@ -1,0 +1,21 @@
+tags: [Category Management]
+summary: Get a category
+description: |
+  This endpoint is used to get a category.
+parameters:
+  - in: path
+    name: category_id
+    schema:
+      type: string
+    required: true
+    description: |
+      Category id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/CategoryResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

@@ -1,0 +1,95 @@
+tags: [Authentication]
+summary: Login a user
+description: |
+  This endpoint is used to login a user. Suspended user wont be logged in.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        required:
+          - identifier
+          - password
+        properties:
+          identifier:
+            type: string
+            description: Email/Phone number to login with
+          password:
+            type: string
+            description: Password to login to the system
+      example:
+        identifier: 08160532895
+        password: admin123
+responses:
+  200: # status code
+    $ref: "#/components/responses/UserResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    LoginSchema:
+      type: object
+      required:
+      properties:
+        user_data:
+          properties:
+            first_name:
+              type: string
+              description: |
+                User first name.
+            last_name:
+              type: string
+              description: |
+                User last name.
+            phone_number:
+              type: string
+              description: |
+                User phone number
+            role:
+              type: string
+              description: |
+                User role
+              default: "CUSTOMER"
+        token:
+          type: string
+          description: |
+            Auth token
+
+  responses:
+    UserResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                user_data:
+                  _id: 5f67943d823e6329fd116f33
+                  profile_img: https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg
+                  first_name: Yusuff
+                  last_name: Akki
+                  phone_number: 08160532895
+                  status: ACTIVE
+                  created_at: "2020-09-20T17:41:17.409Z"
+                  updated_at: "2020-09-20T17:41:17.409Z"
+                  __v: 0
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsX25hbWUiOiJZdXN1ZmYgQWtraSIsImVtYWlsIjoieWV3b2IzMDk0NUBvbm1haWwzLmNvbSIsIl9pZCI6IjVmNjc5NDNkODIzZTYzMjlmZDIzNmYzMyIsImlhdCI6MTYwMDYyNDIyNSwiZXhwIjoxNjAwNzEwNjI1fQ.PKn733MvS4FW8p7qdRHo-8wD7vOBmIswEg0txn9_kiE
+                expires: 10 day
+              message: Login successful!

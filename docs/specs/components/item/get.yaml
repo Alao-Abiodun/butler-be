@@ -1,0 +1,42 @@
+tags: [Item Management]
+summary: Get all items
+description: |
+  This endpoint is used to get all item.
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/ItemResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  responses:
+    AllitemResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: "array"
+
+            example:
+              status: success
+              data:
+                - _id: 5f67943d823e6329fd236f33
+                  name: Cardigan
+                  class: Tops
+                  status: ACTIVE
+                  visible: false
+
+              message: Cardigan created successfully.

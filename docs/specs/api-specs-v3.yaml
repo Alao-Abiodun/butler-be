@@ -1,0 +1,178 @@
+openapi: 3.0.0
+info:
+  title: Butler documentation
+
+  description: |
+    # Introduction
+    ## Overview
+    Welcome to the **Butler API** Documentation! Butler attempts to make service delivery as easy as possible.
+
+    The following guide is intended to walk you through the Butler features, such as making authenticated API requests, 
+    sending the right headers, and request body. 
+
+    I tried to make this API as simple as possible and less complicated that
+    it should be a stroll in the park for anyone that attempts to consume it. 
+
+    > ### REACH OUT TO ME ONLY IF:
+    > + You want to appreciate this work and send me some bitcoin 🎉.
+    > + The endpoint doesn't work and you have thoroughly read this documentation (without doing magic).
+    > + There's a server crash, caused by earthquake of magnitude greater than 8.9.
+    > >Thank you for you anticipated cooperation 🎉🎉🎉
+
+
+
+    > NOTE: [Insomnia](https://insomnia.rest/download) and [axios](https://github.com/axios/axios) is highly recommended!
+
+    ## Request/Response Format
+
+    Most endpoints require the use of a token, so dont forget to send a token/ cookie
+    in your header. A sample token can be seen below.
+        
+        Authorization Bearer ${JWTtoken}
+
+    All endpoints are version (/v1, v2 et.c), please, always use the highest available endpoints versions
+
+    All request body are must be in `snake_case`. There is no exception
+
+    All request submitting parameters must set their Content-Type to application/json. Nonconforming requests might not be accepted.
+
+    You can set your request content-type by adding the Content-Type: application/json header to your API request.
+
+    The default response format is JSON. 
+
+    + Successful `GET` requests will return a 200 OK HTTP status.
+
+    + Some Successful `POST` (creation endpoints) requests will return a 201 CREATED HTTP status.
+
+    + Successful `DELETE` requests will return a 202 ACCEPTED HTTP status.
+
+    + Successful `PUT/PATCH` requests will most likely return a 200 OK HTTP status.
+
+    Some general information about responses:
+    + Most response body can `almost always` be in `snake_case` too, but due to the external service 
+    that might be consumed too, always confirm from the documentation
+
+    + Dates are returned in ISO8601 format: YYYY-MM-DDTHH:MM:SS.XXXZ
+
+    + Resource IDs are returned as mongodb uuids.
+
+    Response follows [JSend](https://github.com/omniti-labs/jsend) specifications
+
+    A typical Success request looks like below
+
+        {status: "success", data: [], message: "request successful"}
+
+    A typical failure request looks like below
+
+        {status: "fail", error: {}, message: "request failed"}
+
+
+    ## HTTPS/SSL
+    All API requests must be made over [HTTPS](https://en.wikipedia.org/wiki/HTTPS). Calls made over plain HTTP will most likey redirect anyways
+
+    ## Errors
+    This API uses conventional HTTP response codes to indicate the success or failure of an API request.
+
+    In general: Codes in the 2xx range indicate success.
+    Codes in the 4xx range indicate an error that failed given the information provided
+    (e.g., a required parameter was omitted, a resource is not authorized for writes, etc.).
+    Codes in the 5xx range indicate an error with Seam's servers (these are rare).
+
+    Below are a few example of such errors:
+
+    Status Code	Meaning
+
+    | Code              | Reason                                          |
+    |:------------------|:-----------------------------------------------:|
+    |400	Bad Request   | Your request is invalid                         |
+    |401	Unauthorized  | Couldn't authenticate your request              |
+    |422	Unproccesable | Request can't be validated                      |
+    |403	Forbidden     | User is not authorized to perform that action   |
+    |500  Server Error  | Internal server error                           |
+  version: 0.5.0
+
+tags:
+  - name: Authentication
+    description: |
+      All user can login with their phone number and password using this endpoint. Note that suspended users
+      will be unable to login to this system
+
+  - name: User Management
+    description: |
+      There are five types of users in this system with role(s): `SUPER_ADMIN`, `CUSTOMER`and `SERVICE_DELIVERER` this is denoted by the `role` fields in all users.
+
+  - name: Category Management
+    description: |
+      Categories are sub services under the main services
+
+servers:
+  - url: http://localhost:2111/api/
+    description: Development server description
+paths:
+  /v1/auth/login:
+    post:
+      $ref: "./components/auth/login.yaml"
+  /v1/auth/change-password:
+    post:
+      $ref: "./components/auth/change-password.yaml"
+
+  /v1/auth/register:
+    post:
+      $ref: "./components/users/create.yaml"
+  # /v1/auth/add-staff:
+  #   post:
+  #     $ref: "./components/users/add-staff.yaml"
+  /v1/users/me:
+    get:
+      $ref: "./components/users/me.yaml"
+  /v1/users/:
+    get:
+      $ref: "./components/users/get.yaml"
+  /v1/users/{user_id}:
+    get:
+      $ref: "./components/users/getOne.yaml"
+    put:
+      $ref: "./components/users/update.yaml"
+  /v1/users/{user_id}/suspend:
+    patch:
+      $ref: "./components/users/suspend-user.yaml"
+
+  /v1/services/:
+    get:
+      $ref: "./components/service/get.yaml"
+    post:
+      $ref: "./components/service/create.yaml"
+  /v1/services/{service_id}:
+    get:
+      $ref: "./components/service/getOne.yaml"
+    patch:
+      $ref: "./components/service/update.yaml"
+    delete:
+      $ref: "./components/service/delete.yaml"
+
+  /v1/categories/:
+      get:
+        $ref: "./components/category/get.yaml"
+      post:
+        $ref: "./components/category/create.yaml"
+  /v1/categories/{category_id}:
+    get:
+      $ref: "./components/category/getOne.yaml"
+    post:
+      $ref: "./components/category/add-item.yaml"
+  /v1/categories/{category_id}/remove-item:
+    delete:
+      $ref: "./components/category/remove-item.yaml"
+
+  /v1/items/:
+      get:
+        $ref: "./components/item/get.yaml"
+      post:
+        $ref: "./components/item/create.yaml"
+  /v1/items/{item_id}:
+    get:
+      $ref: "./components/item/getOne.yaml"
+    patch:
+      $ref: "./components/item/update.yaml"
+    delete:
+      $ref: "./components/item/delete.yaml"

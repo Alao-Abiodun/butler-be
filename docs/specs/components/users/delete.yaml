@@ -1,0 +1,21 @@
+tags: [User]
+summary: Delete a user
+description: |
+  This endpoint is used to delete a user.
+parameters:   
+  - in: path
+    name: user_id
+    schema:
+      type: string
+    required: true
+    description: |
+      User id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+responses:
+  200:    # status code
+    $ref: './create.yaml#/components/responses/UserResponse'
+  422:    # status code
+    $ref: '../base-components.yaml#/components/responses/UPE'
+  500:    # status code
+    $ref: '../base-components.yaml#/components/responses/Failure'

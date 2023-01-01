@@ -1,0 +1,31 @@
+tags: [Service Management]
+summary: Update a service
+description: |
+  This endpoint is used to update a service details. Note that `slug` and `name` cannot be updated
+
+parameters:
+  - in: path
+    name: service_id
+    schema:
+      type: string
+    required: true
+    description: |
+      service id.
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "./create.yaml#/components/schemas/ServiceSchema"
+      example:
+        visible: false
+        status: "INACTIVE"
+responses:
+  200: # status code
+    $ref: "./create.yaml#/components/responses/ServiceResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"

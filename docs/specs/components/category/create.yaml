@@ -1,0 +1,162 @@
+tags: [Category Management]
+summary: Create a category
+description: |
+  This endpoint is used to create a Category and it require `authentication`. 
+
+  > NOTE: ONly`SUPER_ADMIN` can use this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/CategorySchema"
+      example:
+        name: Laundry
+        description: We make life easy for you
+        icon: 08160532895
+        image: ["https://google.com"]
+        status: "ACTIVE"
+        visible: true
+        service: "6142536817c6a69148e50d02"
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/CategoryResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    CategoryRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Category's name "
+        description:
+          type: "string"
+          maxLength: 60
+          description: "Category's description"
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Category Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Category active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Category's active"
+        image:
+          type: "array"
+        service:
+          type: "string"
+          description: "The id of the service it belongs to"
+      required:
+        - "name"
+        - "description"
+        - service
+
+
+    CategorySchema:
+      type: object
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Category's name "
+        description:
+          type: "string"
+          maxLength: 60
+          description: "Category's description"
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Category Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Category active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Category's active"
+        image:
+          type: "array"
+        
+        service:
+          type: "string"
+          description: "The id of the service it belongs to"
+        # role:
+        #   type: "string"
+        #   description: "The role of the category to created"
+        #   default: "CUSTOMER"
+      required:
+        - "name"
+        - "description"
+
+  responses:
+    CategoryResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                icon: https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg
+                images: []
+                status: ACTIVE
+                visible: true
+                packages: []
+                items: []
+                steps:
+                - Sweeping and mopping of all floors
+                - Dust and wipe all surfaces
+                - Cobweb removal from all surfaces
+                - Wash dirty dishes
+                - Arrange furniture, lay bed & fold clothes
+                - Polish all wood & glass surfaces
+                - Scrub & wash urinals, toilets and toilet seats
+                - Clean base & behind toilet
+                - Scrape floors, walls & clean all surfaces
+                - Empty & clean trash can
+                - Light switches cleaned
+                - Window glasses shined and cleaned
+                - Clean internal & external parts of home appliances (Gas cookers, refrigirators
+                  etc)
+                - Clean cupboards and cabinets
+                - Passage & walkways swept and cleaned
+                _id: 6142536817c6a69148e50d02
+                name: Deep cleaning
+                description: What is deep cleaning?
+                service: 614238c9a16c1185ff26e2bb
+                slug: deep-cleaning
+                created_at: '2021-09-15T20:11:20.880Z'
+                updated_at: '2021-09-15T20:11:20.880Z'
+                __v: 0
+              message: Deep cleaning added successfully

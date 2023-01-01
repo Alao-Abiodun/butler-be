@@ -1,0 +1,149 @@
+tags: [Service Management]
+summary: Create a service
+description: |
+  This endpoint is used to create a SERVICE and it require `authentication`. 
+
+  > NOTE: ONly`SUPER_ADMIN` can use this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/ServiceSchema"
+      example:
+        name: Laundry
+        description: We make life easy for you
+        icon: 08160532895
+        image: ["https://google.com"]
+        status: "ACTIVE"
+        visible: true
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/ServiceResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    ServiceRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Service's name "
+        description:
+          type: "string"
+          maxLength: 60
+          description: "Service's description"
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Service Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Service active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Service's active"
+        image:
+          type: "array"
+        # role:
+        #   type: "string"
+        #   description: "The role of the service to created"
+        #   default: "CUSTOMER"
+      required:
+        - "name"
+        - "description"
+
+
+    ServiceSchema:
+      type: object
+      properties:
+        name:
+          type: "string"
+          maxLength: 60
+          description: "Service's name "
+        description:
+          type: "string"
+          maxLength: 60
+          description: "Service's description"
+        icon:
+          type: "string"
+          minLength: 8
+          maxLength: 50
+          description: "Service Icon"
+        status:
+          type: "string"
+          format: "string"
+          enum: ["ACTIVE", "INACTIVE"]
+          description: "Service active"
+        visible:   
+          type: "boolean"
+          default: true
+          description: "Service's active"
+        image:
+          type: "array"
+        # role:
+        #   type: "string"
+        #   description: "The role of the service to created"
+        #   default: "CUSTOMER"
+      required:
+        - "name"
+        - "description"
+
+  responses:
+    ServiceResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                __id: 61423bbb07905787aad06a7a
+                icon: data:image/png;base64,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
+                images:
+                - https://res.cloudinary.com/butlerdesigns/image/upload/v1631657584/Assets/Fumigation2_i1sqda.png
+                status: ACTIVE
+                visible: true
+                active_states: []
+                active_cities: []
+                packages: []
+                categories: []
+                steps:
+                - Select your fumigation preferences
+                - Relax
+                - We’ll get you a vetted & affordable pest control expert
+                name: Fumigation
+                description: We get rid of pests and insects around your home
+                tagline: Aren’t you tired of sharing your living space with cockroaches, rats, mice,
+                  bedbugs, mosquitoes & spiders?
+                slug: fumigation
+                created_at: '2021-09-15T18:30:19.086Z'
+                updated_at: '2021-09-15T18:30:19.086Z'
+                __v: 0
+
+              message: Service Laundry created successfully.

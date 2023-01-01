@@ -1,0 +1,121 @@
+tags: [Settings]
+summary: Update the admin settings
+description: |
+  This endpoint is used to update the admin settings
+
+# parameters:
+#   $ref: '../base-components.yaml#/components/parameters/idParam'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/SettingsSchema"
+      example:
+        generate_subdomain: false
+        global_timezone: { tz: America/Chicago, tz_offset: -6 }
+        global_currency: { sign: "&#36;", name: USD }
+        reminders: { profile_invites_response: 2880 }
+responses:
+  200: # status code
+    $ref: "#/components/responses/SettingsResponse"
+  422: # status code
+    $ref: ../base-components.yaml#/components/responses/UPE
+  500: # status code
+    $ref: ../base-components.yaml#/components/responses/Failure
+
+components:
+  schemas:
+    SettingsSchema:
+      type: object
+      properties:
+        generate_subdomain:
+          type: boolean
+          default:
+          description: |
+            Option of whether to generate subdomain name for workspace.
+          global_timezone:
+            type: object
+            properties:
+              tz:
+                type: string
+                description: |
+                  Timezone IANA identifier
+              tz_offset:
+                type: number
+                description: |
+                  Timezone GMT Offset Hours. '-1' for GMT -1
+          global_currency:
+            type: object
+            properties:
+              sign:
+                type: string
+                description: |
+                  Currency HTML sign e.g &#36;
+              name:
+                type: string
+                description: |
+                  Currency name sign e.g USD, ZAR
+
+  responses:
+    SettingsResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+                title: settings
+                properties:
+                  generate_subdomain:
+                    type: boolean
+                  global_timezone:
+                    type: object
+                    properties:
+                      tz:
+                        type: string
+                      tz_offset:
+                        type: number
+                  global_currency:
+                    type: object
+                    properties:
+                      sign:
+                        type: string
+                      name:
+                        type: string
+                  finances:
+                    type: array
+                    items:
+                      type: string
+                  reminders:
+                    type: object
+                    properties:
+                      profile_invite_response:
+                        type: number
+                  _id:
+                    type: string
+                  updated_at:
+                    type: string
+                    format: date-time
+                  created_at:
+                    type: string
+                    format: date-time
+
+            example:
+              status: success
+              data:
+                _id: 5f67943d823e6329fd236f33
+                full_name: Yusuff Akki
+                email: yewob30945@gmail.com
+                status: UNVERIFIED
+              message: Settings with email yewob30945@onmail3.com created successfully.

@@ -1,0 +1,72 @@
+tags: [Category Management]
+summary: Remove Item from a category
+description: |
+  This endpoint is used to remove an item to a category and it require `authentication`. 
+
+  > NOTE: ONly`SUPER_ADMIN` can use this endpoint
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: "#/components/schemas/CategorySchema"
+      example:
+        item_id: 21qwasaZds32esad23d23ed32d
+
+responses:
+  200: # status code
+    $ref: "#/components/responses/CategoryResponse"
+  422: # status code
+    $ref: "../base-components.yaml#/components/responses/UPE"
+  500: # status code
+    $ref: "../base-components.yaml#/components/responses/Failure"
+
+components:
+  schemas:
+    CategoryRequestSchema:
+      $allOf:
+        $ref: "../base-components.yaml#/components/schemas/TimestampsSchema"
+      type: "object"
+      properties:
+        item:
+          type: "string"
+          maxLength: 60
+          description: "Id of the Item"
+      required:
+        - "item_id"
+
+
+    CategorySchema:
+      type: object
+      properties:
+        item_id:
+          type: "string"
+          maxLength: 60
+          description: "Id of the Item"
+      required:
+        - "item_id"
+
+  responses:
+    CategoryResponse:
+      description: OK - Your request was successful
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - data
+            properties:
+              status:
+                type: string
+              message:
+                type: string
+              data:
+                type: object
+
+            example:
+              status: success
+              data:
+                item: 34dsdsadadxczxcass3ewdsee
+              message: Cardigan removed successfully
